@@ -19,19 +19,19 @@ class ArztterminSkill(MycroftSkill):
         months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember',
                 'januar.', 'februar.','märz.', 'april.', 'mai.', 'juni.', 'juli.', 'august.', 'september.','oktober.','november.','dezember.', '. erster', '. ersten', '. zweiter','. zweiten' ,'. dritter', '. dritten','. 3','. 4','. 5','. 6','. 7','. 8','. 9','. 10','. 11','. 12','. 13','. 14','. 15',
                 '. 16','. 17','. 18','. 19','. 20','. 21','. 22','. 23','. 24','. 25','. 26','. 27','. 28','. 29','. 30','. 31']
-        days = ['erster', 'ersten', 'zweiter','zweiten' ,'dritter', 'dritten','3','4','5','6','7','8','9','10','11','12','13','14','15',
+        days = ['erster', 'ersten', 'zweiter','zweiten' ,'dritter', 'dritten','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15',
                 '16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
         day = [d for d in days if(d in date_response.lower())]
         month = [m for m in months if(m in date_response.lower())]
 
         if (bool(day) and bool(month)):
-            date = day[-1] + '. ' + month[-1]
+            date = day[0] + '. ' + month[-1]
         else:
             # TODO: besser nach wiederholung fragen
             date_response = self.get_response('ParticularDateTwo', on_fail='wait.for.answer', num_retries=20)
             day = [d for d in days if(d in date_response)]
             month = [m for m in months if(m in date_response)]
-            date = day[-1] + '. ' + month[-1]
+            date = day[0] + '. ' + month[-1]
 
         # NAME:
         name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=20)
