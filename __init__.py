@@ -39,7 +39,7 @@ class ArztterminSkill(MycroftSkill):
 
         if (name is None):
             name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=20)
-            name = name.lower().replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
+            name = name.lower().replace('der', '').replace('geburtstag', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('sie heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('hat', '').replace('am', '').replace('hat', '')
         if (date is None):
             date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=20)
             months = ['januar', 'februar','märz', 'april', 'mai', 'juni', 'juli', 'august', 'september','oktober','november','dezember']
