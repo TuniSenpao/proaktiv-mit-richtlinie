@@ -13,21 +13,6 @@ class ArztterminSkill(MycroftSkill):
 
     @intent_handler('Reminder.intent')
     def add_unspecified_reminder(self, msg=None):        
-        # TIME:
-        time_response = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=20)
-        # Check if a time was in the response
-        dt, rest = extract_datetime(time_response) or (None, None)
-        if dt or self.response_is_affirmative(time_response):
-            if not dt:
-                # No time specified
-                time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=20)
-                dt, rest = extract_datetime(time) or None, None
-                if not dt:
-                    self.speak_dialog('Fine')
-                    return
-
-        time = datetime.strftime(dt, "%H:%M")
-
         # DATE:
         date = None
         date_response = self.get_response('ParticularDate', on_fail='wait.for.answer', num_retries=20)
@@ -52,24 +37,6 @@ class ArztterminSkill(MycroftSkill):
         name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=20)
         name = name.lower().replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
 
-        if (time is None):
-            time_response = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=20)
-            # Check if a time was in the response
-            dt, rest = extract_datetime(time_response) or (None, None)
-            if dt or self.response_is_affirmative(time_response):
-                if not dt:
-                    # No time specified
-                    time = self.get_response('ParticularTime', on_fail='wait.for.answer', num_retries=20)
-                    dt, rest = extract_datetime(time) or None, None
-                    if not dt:
-                        self.speak_dialog('Fine')
-                        return
-                # self.__save_reminder_local(time, dt)
-            else:
-                self.log.debug('put into general reminders')
-                # self.__save_unspecified_reminder(reminder)
-
-            time = datetime.strftime(dt, "%H:%M")
         if (name is None):
             name = self.get_response('ParticularName', on_fail='wait.for.answer', num_retries=20)
             name = name.lower().replace('der', '').replace('termin', '').replace('ist', '').replace('bei', '').replace('er heißt', '').replace('ich', '').replace('glaube', '').replace('dieser', '').replace('mein', '').replace('arzttermin', '').replace('arzt', '').replace('ärztin', '')
@@ -84,10 +51,10 @@ class ArztterminSkill(MycroftSkill):
             if (bool(day) and bool(month)):
                 date = day[-1] + '. ' + month[-1]
         
-        if (time is None or date is None or name is None):
+        if (date is None or name is None):
             self.speak_dialog('confirm.without.variables')
         else:
-            self.speak_dialog('confirm_arzttermin', data={'time' : time, 'date': date, 'name': name})
+            self.speak_dialog('confirm_arzttermin', data={'date': date, 'name': name})
 
 
 
